@@ -12,7 +12,8 @@ import java.util.concurrent.TimeoutException;
 
 public class Consumer {
     public static void main(String[] args) throws IOException, TimeoutException, InterruptedException {
-        Consumer consumer = new Consumer();
+        String queueName = "test_queue";
+        Consumer consumer = new Consumer(queueName);
         consumer.connect();
         String consumerTag = consumer.receiveString();
         System.out.println("consumerTag: " + consumerTag);
@@ -22,7 +23,14 @@ public class Consumer {
 
     private Connection connection;
     private Channel channel;
-    private final String queueName = "demo-simplest";
+    private String queueName = "demo-simplest";
+
+    public Consumer() {
+    }
+
+    public Consumer(String queueName) {
+        this.queueName = queueName;
+    }
 
     private void connect() throws IOException, TimeoutException {
         ConnectionFactory factory = ConnectionModal.defaultConnectionModal.buildFactory();
